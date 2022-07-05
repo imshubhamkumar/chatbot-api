@@ -6,9 +6,6 @@ const BotSchema = new Schema({
     userId: { type: String, required: false },
     botName: { type: String, required: false },
     botDescription: { type: String, required: false },
-    nodes: { type: Array, required: false },
-    edges: { type: Array, required: false },
-    chats: { type: Array, required: false },
     createdAt: { type: Date, required: false, default: new Date() },
 });
 

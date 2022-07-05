@@ -1,11 +1,13 @@
 import express from 'express';
 import passport from 'passport';
 import mongoose, { ConnectOptions } from 'mongoose';
+import cors from 'cors';
 import users from './controller/users';
 import bots from './controller/bots';
 import * as http from 'http';
 import session from 'express-session';
 const app = express();
+app.use(cors());
 const port = process.env.PORT || 5000;
 
 mongoose

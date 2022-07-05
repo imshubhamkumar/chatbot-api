@@ -13,7 +13,7 @@ router.get("/", (req: Request, res: Response) => {
   return res.status(200).json({ message: "this is the user route" });
 });
 
-router.post('/login', async (req, res, next) => {
+router.post('/authenticate', async (req, res, next) => {
     const user = await Users.countDocuments();
     if (user <= 0) {
         const firstUser = new Users({
@@ -26,7 +26,7 @@ router.post('/login', async (req, res, next) => {
         passport.authenticate('local', (err, user) => {
             if (err)  return next(err);
             if (!user) {
-                return res.status(200).json({status: false, errors: 'Email/Password is wrong.'})
+                return res.status(200).json({errors: false, message: 'Email/Password is wrong.'})
             }
             req.logIn(user, async (err) => {
                 if (err) {  
@@ -35,9 +35,9 @@ router.post('/login', async (req, res, next) => {
                 const accessToken = await signRefreshToken(user.email)
                 Users.updateOne({_id: user._id}, {active: true}, (err: any, data: any) => {
                     if(err) {
-                        return res.status(200).json({status: false, data: 'Error while login please try again'})
+                        return res.status(200).json({errors: false, data: 'Error while login please try again'})
                     } else {
-                        return res.status(200).json({status: true, message: 'Login Successfull', accessToken: accessToken, user})
+                        return res.status(200).json({errors: true, message: 'Login Successfull', accessToken: accessToken, user})
                     }
                 })
             })
