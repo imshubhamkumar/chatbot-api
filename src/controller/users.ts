@@ -26,7 +26,7 @@ router.post('/authenticate', async (req, res, next) => {
         passport.authenticate('local', (err, user) => {
             if (err)  return next(err);
             if (!user) {
-                return res.status(200).json({errors: false, message: 'Email/Password is wrong.'})
+                return res.status(200).json({errors: true, message: 'Email/Password is wrong.'})
             }
             req.logIn(user, async (err) => {
                 if (err) {  
@@ -35,9 +35,9 @@ router.post('/authenticate', async (req, res, next) => {
                 const accessToken = await signRefreshToken(user.email)
                 Users.updateOne({_id: user._id}, {active: true}, (err: any, data: any) => {
                     if(err) {
-                        return res.status(200).json({errors: false, data: 'Error while login please try again'})
+                        return res.status(200).json({errors: true, data: 'Error while login please try again'})
                     } else {
-                        return res.status(200).json({errors: true, message: 'Login Successfull', accessToken: accessToken, user})
+                        return res.status(200).json({errors: false, message: 'Login Successfull', accessToken: accessToken, user})
                     }
                 })
             })
