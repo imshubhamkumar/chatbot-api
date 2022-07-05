@@ -11,7 +11,7 @@ app.use(cors());
 const port = process.env.PORT || 5000;
 
 mongoose
-.connect('mongodb+srv://buddyest:buddyest773@cluster0.ocws3.mongodb.net/buddyest?retryWrites=true&w=majority',
+.connect(process.env.DB_CONN,
     {
         useNewUrlParser: true,
         useUnifiedTopology: true
